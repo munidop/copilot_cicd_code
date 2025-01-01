@@ -1,0 +1,54 @@
+#Add task to set kubeconfig for EKS Cluster using aws eks update-kubeconfig command
+#Deploy ngnix application to EKS Cluster
+#Add code to set kubeconfig for EKS Cluster
+#use kubeconfig as ~/.kube/config
+#Replica count should be 2
+#Expose the application on port 80
+#Use LoadBalancer service type
+
+- name: Deploy Nginx application to EKS Cluster
+  hosts: localhost
+  tasks:
+    - name: Set kubeconfig for EKS Cluster
+      command: aws eks update-kubeconfig --name eks-cluster --region us-west-2
+    - name: Deploy Nginx application to EKS Cluster
+      k8s:
+        state: present
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: nginx-deployment
+          spec:
+            replicas: 2
+            selector:
+              matchLabels:
+                app: nginx
+            template:
+              metadata:
+                labels:
+                  app: nginx
+              spec:
+                containers:
+                - name: nginx
+                  image: nginx
+                  ports:
+                  - containerPort: 80
+        wait: yes
+    - name: Expose the application on port 80
+      k8s:
+        state: present
+        definition:
+          apiVersion: v1
+          kind: Service
+          metadata:
+            name: nginx-service
+          spec:
+            selector:
+              app: nginx
+            ports:
+            - protocol: TCP
+              port: 80
+              targetPort: 80
+            type: LoadBalancer
+        wait: yes
