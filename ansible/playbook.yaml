@@ -10,7 +10,7 @@
   hosts: localhost
   tasks:
     - name: Set kubeconfig for EKS Cluster
-      command: aws eks update-kubeconfig --name eks-cluster --region us-west-2
+      command: aws eks update-kubeconfig --name main-eks-cluster --region eu-west-1
     - name: Deploy Nginx application to EKS Cluster
       k8s:
         state: present
