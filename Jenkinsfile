@@ -17,21 +17,7 @@ pipeline {
             }
         }
 				
-        stage('Ansible Deployment') {
-            steps {
-                dir('ansible') {
-                    sh 'ansible-playbook playbook.yaml'
-                }
-            }
-        }
-
-        stage('Test Ansible Deployment') {
-            steps {
-                dir('ansible') {
-                    sh 'ansible-playbook playtest.yaml'
-                }
-            }
-        }
+        
 
         stage('Build Docker Image') {
             steps {
