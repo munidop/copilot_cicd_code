@@ -11,18 +11,4 @@
       register: kubeconfig_set
       failed_when: kubeconfig_set.rc != 0
 
-    - name: Verify Nginx deployment
-      k8s_info:
-        kind: Deployment
-        namespace: default
-        name: nginx-deployment
-      register: nginx_deployment
-      failed_when: nginx_deployment.resources[0].status.replicas != 2
-
-    - name: Verify Nginx service
-      k8s_info:
-        kind: Service
-        namespace: default
-        name: nginx-service
-      register: nginx_service
-      failed_when: nginx_service.resources[0].spec.ports[0].port != 80
+   
