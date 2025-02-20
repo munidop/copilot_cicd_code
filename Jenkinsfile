@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
 	environment{
@@ -20,7 +21,8 @@ pipeline {
                 dir('terraform') {
 		
                     sh 'terraform init'
-                    sh 'terraform apply -auto-approve'
+		sh 'terraform apply --auto-approve'
+                    
                 }
             }
         }
@@ -50,11 +52,11 @@ pipeline {
         }
 	stage("Push Image to Docker Hub"){
       steps{
-         withCredentials([string(credentialsId: 'DOCKER_HUB_CREDENTIALS', variable: 'PASSWORD')]){
+         
             sh 'docker login -u ${dockeruser} -p ${dockerpass}'
            sh 'docker push ${dockeruser}/flask-app:latest	'
            
-         }
+         
       }
     }
 
