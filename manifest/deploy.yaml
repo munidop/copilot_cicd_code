@@ -15,9 +15,9 @@ spec:
         app: flask-app
     spec:
       containers:
-      - name: flask-app
+      - name: DOCKERUSER/flask-app
         image: flask-app:latest
-        imagePullPolicy: Never
+        imagePullPolicy: Always
         ports:
         - containerPort: 5000
         env:
