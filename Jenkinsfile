@@ -60,7 +60,9 @@ pipeline {
 
         stage('Deploy Flask App to EKS') {
             steps {
+		    
                 dir('manifest') {
+			sh "sed -i 's/DOCKERUSER/${dockeruser}/g' deploy.yaml"
                     sh 'kubectl apply -f deploy.yaml'
                     sh 'kubectl get all'
                 }
