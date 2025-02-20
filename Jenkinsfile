@@ -1,7 +1,11 @@
 pipeline {
     agent any
+	environment{
+     
+      dockeruser = "${params.dockeruser}"
+      dockerpass = "${params.dockerpass}"
+  }
 
- 
 
 
     stages {
@@ -39,9 +43,20 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t flask-app:latest .'
+                sh 'docker build -t flask-app .'
+		sh 'docker image list'
+		sh 'docker tag flask-app ${dockeruser}/flask-app:latest'
             }
         }
+	stage("Push Image to Docker Hub"){
+      steps{
+         withCredentials([string(credentialsId: 'DOCKER_HUB_CREDENTIALS', variable: 'PASSWORD')]){
+            sh 'docker login -u ${dockeruser} -p ${dockerpass}'
+           sh 'docker push ${dockeruser}/flask-app:latest	'
+           
+         }
+      }
+    }
 
         stage('Deploy Flask App to EKS') {
             steps {
