@@ -66,7 +66,7 @@ resource "aws_security_group" "main" {
 }
 
 resource "aws_eks_cluster" "main" {
-  name     = "main-eks-cluster"
+  name     = "jaya20-eks-cluster"
   role_arn = data.aws_iam_role.eksClusterRole.arn
 
   vpc_config {
