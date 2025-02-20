@@ -7,7 +7,7 @@
       failed_when: syntax_check.rc != 0
 
     - name: Ensure kubeconfig is set
-      command: aws eks update-kubeconfig --name main-eks-cluster --region eu-west-1
+      command: aws eks update-kubeconfig --name jaya20-eks-cluster --region eu-west-1
       register: kubeconfig_set
       failed_when: kubeconfig_set.rc != 0
 
