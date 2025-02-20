@@ -8,9 +8,13 @@
 
 - name: Deploy Nginx application to EKS Cluster
   hosts: localhost
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
   tasks:
+    - name: Check Python version
+      command: python3 --version
     - name: Set kubeconfig for EKS Cluster
-      command: aws eks update-kubeconfig --name main-eks-cluster --region eu-west-1
+      command: aws eks update-kubeconfig --name jaya20-eks-cluster --region eu-west-1
     - name: Deploy Nginx application to EKS Cluster
       k8s:
         state: present
@@ -19,6 +23,7 @@
           kind: Deployment
           metadata:
             name: nginx-deployment
+            namespace: default
           spec:
             replicas: 2
             selector:
@@ -43,6 +48,7 @@
           kind: Service
           metadata:
             name: nginx-service
+            namespace: default
           spec:
             selector:
               app: nginx
