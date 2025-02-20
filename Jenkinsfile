@@ -5,6 +5,7 @@ pipeline {
      
       dockeruser = "${params.dockeruser}"
       dockerpass = "${params.dockerpass}"
+		namespace = "${params.namespace}"
   }
 
 
@@ -21,7 +22,7 @@ pipeline {
                 dir('terraform') {
 		
                     sh 'terraform init'
-		sh 'terraform apply --auto-approve'
+		#sh 'terraform apply --auto-approve'
                     
                 }
             }
@@ -65,8 +66,8 @@ pipeline {
 		    
                 dir('manifest') {
 			sh "sed -i 's/DOCKERUSER/${dockeruser}/g' deploy.yaml"
-                    sh 'kubectl apply -f deploy.yaml'
-                    sh 'kubectl get all'
+                    sh 'kubectl apply -f deploy.yaml -n ${namespace}'
+                    sh 'kubectl get all -n ${namespace}'
                 }
             }
         }
