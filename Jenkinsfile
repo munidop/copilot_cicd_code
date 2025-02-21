@@ -21,7 +21,7 @@ pipeline {
                 #export AWS_SECRET_ACCESS_KEY=$secret
 			#export AWS_REGION="eu-west-1"
                     sh 'terraform init'
-                    sh 'terraform apply --auto-approve'
+                    sh 'terraform apply -auto-approve'
                 }
             }
         }
