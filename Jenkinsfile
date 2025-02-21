@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/jaya-narayana2205/copilot_cicd_code.git'
+                git 'https://github.com/munidop/copilot_cicd_code.git'
             }
         }
 
